@@ -172,9 +172,9 @@ export function App() {
       onNavigateSettings={() => setView('settings')}
     >
       <div className="mb-6 flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold text-text-primary">Merhaba, Burak</h1>
+        <h1 className="text-2xl font-semibold text-text-primary">Merhaba</h1>
         <p className="text-sm text-text-secondary">
-          CV'lerini yönet, yeni bir tane oluştur ya da eskisini AI ile güncelle.
+          CV'lerini yönet, yeni bir tane oluştur ya da eskisini yükleyip düzenle.
         </p>
       </div>
 
