@@ -1,0 +1,253 @@
+import { FileText, UploadCloud } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { AdSlot } from './components/ads/AdSlot'
+import { CvBuilderView } from './components/cv-builder/CvBuilderView'
+import { CvPreview } from './components/cv-builder/CvPreview'
+import { CvCard } from './components/dashboard/CvCard'
+import { DashboardLayout } from './components/dashboard/DashboardLayout'
+import { SettingsView } from './components/settings/SettingsView'
+import { TemplateGrid } from './components/template-gallery/TemplateGrid'
+import { Badge } from './components/ui/Badge'
+import { Button } from './components/ui/Button'
+import { Card } from './components/ui/Card'
+import { UploadCvView } from './components/upload/UploadCvView'
+import { exportElementToPdf, PDF_EXPORT_WIDTH_PX } from './lib/exportPdf'
+import { createId } from './lib/id'
+import { loadStoredCvs, saveStoredCvs } from './lib/storage'
+import { EMPTY_CV_DATA, type CvData, type StoredCv, type TemplateId } from './types/cv'
+
+type View = 'dashboard' | 'builder' | 'upload' | 'settings'
+
+export function App() {
+  const [view, setView] = useState<View>('dashboard')
+  const [cvs, setCvs] = useState<StoredCv[]>(() => loadStoredCvs())
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [importedCvData, setImportedCvData] = useState<CvData | null>(null)
+  const [templatePresetId, setTemplatePresetId] = useState<TemplateId | null>(null)
+  const [downloadingId, setDownloadingId] = useState<string | null>(null)
+  const exportRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    saveStoredCvs(cvs)
+  }, [cvs])
+
+  const downloadingCv = cvs.find((cv) => cv.id === downloadingId) ?? null
+
+  useEffect(() => {
+    if (!downloadingCv || !exportRef.current) return
+    let cancelled = false
+    exportElementToPdf(exportRef.current, downloadingCv.name || 'cv').then(() => {
+      if (!cancelled) {
+        setDownloadingId(null)
+      }
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [downloadingCv])
+
+  const editingCv = cvs.find((cv) => cv.id === editingId) ?? null
+
+  function handleCreateNew() {
+    setEditingId(null)
+    setImportedCvData(null)
+    setTemplatePresetId(null)
+    setView('builder')
+  }
+
+  function handleEdit(id: string) {
+    setEditingId(id)
+    setImportedCvData(null)
+    setTemplatePresetId(null)
+    setView('builder')
+  }
+
+  function handleUploadParsed(data: CvData) {
+    setImportedCvData(data)
+    setEditingId(null)
+    setTemplatePresetId(null)
+    setView('builder')
+  }
+
+  function handleSelectTemplate(templateId: TemplateId) {
+    setTemplatePresetId(templateId)
+    setEditingId(null)
+    setImportedCvData(null)
+    setView('builder')
+  }
+
+  function handleBuilderCancel() {
+    setEditingId(null)
+    setImportedCvData(null)
+    setTemplatePresetId(null)
+    setView('dashboard')
+  }
+
+  function handleComplete(data: CvData) {
+    const now = new Date().toISOString()
+    setCvs((prev) => {
+      if (editingId) {
+        return prev.map((cv) => (cv.id === editingId ? { ...cv, data, updatedAt: now } : cv))
+      }
+      const name = data.personalInfo.fullName.trim() || 'İsimsiz CV'
+      return [{ id: createId(), name, data, createdAt: now, updatedAt: now }, ...prev]
+    })
+    setEditingId(null)
+    setImportedCvData(null)
+    setTemplatePresetId(null)
+    setView('dashboard')
+  }
+
+  function handleRename(id: string, name: string) {
+    setCvs((prev) => prev.map((cv) => (cv.id === id ? { ...cv, name } : cv)))
+  }
+
+  function handleDelete(id: string) {
+    const target = cvs.find((cv) => cv.id === id)
+    const label = target?.name || 'Bu CV'
+    if (!window.confirm(`${label} silinsin mi? Bu işlem geri alınamaz.`)) return
+    setCvs((prev) => prev.filter((cv) => cv.id !== id))
+  }
+
+  function handleImportCvs(importedCvs: StoredCv[]) {
+    setCvs((prev) => [...importedCvs, ...prev])
+  }
+
+  function handleClearAllCvs() {
+    if (!window.confirm('Tüm CV\'ler kalıcı olarak silinecek. Emin misiniz?')) return
+    setCvs([])
+  }
+
+  if (view === 'upload') {
+    return (
+      <div className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+        <UploadCvView onCancel={() => setView('dashboard')} onParsed={handleUploadParsed} />
+      </div>
+    )
+  }
+
+  if (view === 'settings') {
+    return (
+      <div className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+        <SettingsView
+          cvs={cvs}
+          onCancel={() => setView('dashboard')}
+          onImport={handleImportCvs}
+          onClearAll={handleClearAllCvs}
+        />
+      </div>
+    )
+  }
+
+  if (view === 'builder') {
+    const builderInitialData =
+      editingCv?.data ??
+      importedCvData ??
+      (templatePresetId
+        ? { ...EMPTY_CV_DATA, theme: { ...EMPTY_CV_DATA.theme, template: templatePresetId } }
+        : undefined)
+
+    return (
+      <div className="min-h-screen bg-background px-4 py-6 sm:px-6 lg:px-8">
+        <CvBuilderView
+          initialData={builderInitialData}
+          heading={
+            editingCv
+              ? "CV'yi Düzenle"
+              : importedCvData
+                ? "Yüklenen CV'yi Gözden Geçir"
+                : 'Yeni CV Oluştur'
+          }
+          onCancel={handleBuilderCancel}
+          onComplete={handleComplete}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <DashboardLayout
+      onCreateNew={handleCreateNew}
+      onUploadCv={() => setView('upload')}
+      onNavigateSettings={() => setView('settings')}
+    >
+      <div className="mb-6 flex flex-col gap-1">
+        <h1 className="text-2xl font-semibold text-text-primary">Merhaba, Burak</h1>
+        <p className="text-sm text-text-secondary">
+          CV'lerini yönet, yeni bir tane oluştur ya da eskisini AI ile güncelle.
+        </p>
+      </div>
+
+      <div>
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
+
+        {cvs.length === 0 ? (
+          <Card className="flex flex-col items-center justify-center gap-3 py-12 text-center">
+            <FileText className="h-8 w-8 text-text-muted" />
+            <p className="text-sm text-text-secondary">Henüz bir CV oluşturmadınız.</p>
+            <Button variant="primary" onClick={handleCreateNew}>
+              İlk CV'ni Oluştur
+            </Button>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {cvs.map((cv) => (
+              <CvCard
+                key={cv.id}
+                cv={cv}
+                isDownloading={downloadingId === cv.id}
+                onEdit={() => handleEdit(cv.id)}
+                onDownload={() => setDownloadingId(cv.id)}
+                onDelete={() => handleDelete(cv.id)}
+                onRename={(name) => handleRename(cv.id, name)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8">
+        <AdSlot placement="dashboard" />
+      </div>
+
+      <Card className="mt-8 flex flex-col items-start justify-between gap-4 border-accent/30 bg-gradient-to-r from-surface to-surface-raised sm:flex-row sm:items-center">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+            <UploadCloud className="h-5 w-5" />
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-text-primary">Eski CV'ni yükle</h2>
+              <Badge tone="accent">Otomatik doldur</Badge>
+            </div>
+            <p className="mt-1 text-xs text-text-secondary">
+              PDF veya Word yükle; bilgilerin otomatik olarak şablona yerleşsin.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setView('upload')}
+          className="w-full shrink-0 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-accent-hover sm:w-auto"
+        >
+          Dosya Seç
+        </button>
+      </Card>
+
+      <div className="mt-8">
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
+        <TemplateGrid onSelectTemplate={handleSelectTemplate} />
+      </div>
+
+      {downloadingCv && (
+        <div
+          className="fixed left-[-9999px] top-0"
+          style={{ width: PDF_EXPORT_WIDTH_PX }}
+          aria-hidden="true"
+        >
+          <CvPreview ref={exportRef} data={downloadingCv.data} fixedAspect={false} />
+        </div>
+      )}
+    </DashboardLayout>
+  )
+}
