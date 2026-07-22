@@ -97,9 +97,12 @@ export interface AccentPalette {
   borderClass: string
 }
 
+export type PaperColorId = 'beyaz' | AccentColorId
+
 export interface CvTheme {
   template: TemplateId
   accentColor: AccentColorId
+  paperColor: PaperColorId
 }
 
 export interface CvData {
@@ -127,6 +130,7 @@ export const EMPTY_CV_DATA: CvData = {
   theme: {
     template: 'modern',
     accentColor: 'antrasit',
+    paperColor: 'beyaz',
   },
   personalInfo: {
     fullName: '',

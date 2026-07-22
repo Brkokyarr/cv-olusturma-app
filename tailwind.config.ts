@@ -53,6 +53,22 @@ export default {
           'toz-pembe': '#A9707A',
           zeytin: '#6B6F42',
         },
+        // CV kağıdı için `cv-accent` tonlarının çok açık ("pastel")
+        // versiyonları — koyu `ink` metin renkleriyle okunaklı kalması için
+        // bilinçli olarak çok açık tutuldu (bkz. src/lib/theme.ts, PAPER
+        // seçenekleri).
+        'cv-paper': {
+          antrasit: '#EEF0F1',
+          gri: '#F1EFEC',
+          bej: '#F5EEE4',
+          ten: '#F7ECE3',
+          bordo: '#F6E9EB',
+          lacivert: '#EAEEF2',
+          petrol: '#E9F0EE',
+          hardal: '#F7F0E1',
+          'toz-pembe': '#F7EBED',
+          zeytin: '#F0F1E7',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

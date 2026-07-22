@@ -1,4 +1,4 @@
-import type { AccentColorId, AccentPalette, TemplateId } from '../types/cv'
+import type { AccentColorId, AccentPalette, PaperColorId, TemplateId } from '../types/cv'
 
 export const ACCENT_COLORS: AccentPalette[] = [
   {
@@ -95,6 +95,37 @@ export const ACCENT_COLORS: AccentPalette[] = [
 
 export function getAccentPalette(id: AccentColorId): AccentPalette {
   return ACCENT_COLORS.find((color) => color.id === id) ?? ACCENT_COLORS[0]
+}
+
+export interface PaperColorOption {
+  id: PaperColorId
+  label: string
+  swatchClass: string
+  bgClass: string
+}
+
+// CV kağıdının rengi. "Beyaz" varsayılan/klasik seçenek; diğerleri
+// ACCENT_COLORS ile aynı 10 paleti, kağıda basıldığında koyu `ink`
+// metinlerin okunaklı kalması için çok açık ("pastel") tonlarıyla sunar.
+// Sınıf adları burada birebir yazılıyor (dinamik birleştirme değil) —
+// Tailwind'in derleme zamanı taraması yalnızca kaynak kodda birebir geçen
+// sınıf adlarını üretebiliyor.
+export const PAPER_COLOR_OPTIONS: PaperColorOption[] = [
+  { id: 'beyaz', label: 'Beyaz', swatchClass: 'bg-paper border border-ink/10', bgClass: 'bg-paper' },
+  { id: 'antrasit', label: 'Antrasit', swatchClass: 'bg-cv-paper-antrasit', bgClass: 'bg-cv-paper-antrasit' },
+  { id: 'gri', label: 'Gri', swatchClass: 'bg-cv-paper-gri', bgClass: 'bg-cv-paper-gri' },
+  { id: 'bej', label: 'Bej', swatchClass: 'bg-cv-paper-bej', bgClass: 'bg-cv-paper-bej' },
+  { id: 'ten', label: 'Ten Rengi', swatchClass: 'bg-cv-paper-ten', bgClass: 'bg-cv-paper-ten' },
+  { id: 'bordo', label: 'Bordo', swatchClass: 'bg-cv-paper-bordo', bgClass: 'bg-cv-paper-bordo' },
+  { id: 'lacivert', label: 'Lacivert', swatchClass: 'bg-cv-paper-lacivert', bgClass: 'bg-cv-paper-lacivert' },
+  { id: 'petrol', label: 'Petrol', swatchClass: 'bg-cv-paper-petrol', bgClass: 'bg-cv-paper-petrol' },
+  { id: 'hardal', label: 'Hardal', swatchClass: 'bg-cv-paper-hardal', bgClass: 'bg-cv-paper-hardal' },
+  { id: 'toz-pembe', label: 'Toz Pembe', swatchClass: 'bg-cv-paper-toz-pembe', bgClass: 'bg-cv-paper-toz-pembe' },
+  { id: 'zeytin', label: 'Zeytin', swatchClass: 'bg-cv-paper-zeytin', bgClass: 'bg-cv-paper-zeytin' },
+]
+
+export function getPaperBgClass(paperColor: PaperColorId): string {
+  return PAPER_COLOR_OPTIONS.find((option) => option.id === paperColor)?.bgClass ?? 'bg-paper'
 }
 
 export interface TemplateOption {

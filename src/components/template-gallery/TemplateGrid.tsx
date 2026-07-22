@@ -18,7 +18,10 @@ export function TemplateGrid({ onSelectTemplate }: TemplateGridProps) {
         >
           <CvPreview
             id={`cv-preview-dashboard-${option.id}`}
-            data={{ ...SAMPLE_CV_DATA, theme: { template: option.id, accentColor: 'antrasit' } }}
+            data={{
+              ...SAMPLE_CV_DATA,
+              theme: { template: option.id, accentColor: 'antrasit', paperColor: 'beyaz' },
+            }}
           />
           <div>
             <h3 className="text-sm font-semibold text-text-primary">{option.label}</h3>

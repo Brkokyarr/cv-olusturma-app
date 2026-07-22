@@ -1,6 +1,6 @@
 import { clsx } from 'clsx'
 import { Check } from 'lucide-react'
-import { ACCENT_COLORS, TEMPLATE_OPTIONS } from '../../../lib/theme'
+import { ACCENT_COLORS, PAPER_COLOR_OPTIONS, TEMPLATE_OPTIONS } from '../../../lib/theme'
 import type { CvTheme, TemplateId } from '../../../types/cv'
 
 interface TemplateStepProps {
@@ -140,6 +140,34 @@ export function TemplateStep({ theme, onChange }: TemplateStepProps) {
                 )}
               >
                 {isSelected && <Check className="h-4 w-4 text-white" />}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-sm font-medium text-text-primary">Kağıt Rengi</h3>
+        <p className="mb-3 text-xs text-text-muted">
+          CV'nin arka planı — istersen beyaz yerine yumuşak bir renk tonu kullanabilirsin.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {PAPER_COLOR_OPTIONS.map((option) => {
+            const isSelected = theme.paperColor === option.id
+            return (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => onChange({ ...theme, paperColor: option.id })}
+                aria-label={option.label}
+                aria-pressed={isSelected}
+                className={clsx(
+                  'flex h-9 w-9 items-center justify-center rounded-full ring-2 ring-offset-2 ring-offset-surface transition-shadow',
+                  option.swatchClass,
+                  isSelected ? 'ring-primary' : 'ring-transparent',
+                )}
+              >
+                {isSelected && <Check className="h-4 w-4 text-neutral-900" />}
               </button>
             )
           })}

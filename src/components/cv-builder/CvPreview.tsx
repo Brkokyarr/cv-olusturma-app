@@ -1,6 +1,6 @@
 import { clsx } from 'clsx'
 import { forwardRef } from 'react'
-import { getAccentPalette } from '../../lib/theme'
+import { getAccentPalette, getPaperBgClass } from '../../lib/theme'
 import type { CvData, TemplateId } from '../../types/cv'
 import { BoldTemplate } from './templates/BoldTemplate'
 import { KartTemplate } from './templates/KartTemplate'
@@ -41,13 +41,15 @@ export const CvPreview = forwardRef<HTMLDivElement, CvPreviewProps>(function CvP
 ) {
   const accent = getAccentPalette(data.theme.accentColor)
   const Template = TEMPLATE_COMPONENTS[data.theme.template]
+  const paperBgClass = getPaperBgClass(data.theme.paperColor)
 
   return (
     <div
       ref={ref}
       id={id}
       className={clsx(
-        'w-full rounded-card bg-paper p-8 text-ink shadow-lg',
+        'w-full rounded-card p-8 text-ink shadow-lg',
+        paperBgClass,
         fixedAspect
           ? clsx('aspect-[210/297]', scrollable ? 'overflow-y-auto' : 'overflow-hidden')
           // PDF dışa aktarımında A4 oranını CSS aspect-ratio ile zorlamak

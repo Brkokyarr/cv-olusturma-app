@@ -1,6 +1,6 @@
 import { createId } from './id'
 import { normalizeSectionOrder } from './cvSections'
-import type { StoredCv } from '../types/cv'
+import { EMPTY_CV_DATA, type StoredCv } from '../types/cv'
 
 export function exportCvsAsJson(cvs: StoredCv[]): void {
   const payload = {
@@ -51,6 +51,7 @@ export async function parseImportedCvsFile(file: File): Promise<StoredCv[]> {
     name: cv.name?.trim() || cv.data.personalInfo.fullName || 'İsimsiz CV',
     data: {
       ...cv.data,
+      theme: { ...EMPTY_CV_DATA.theme, ...cv.data.theme },
       sectionOrder: normalizeSectionOrder(cv.data.sectionOrder),
     },
   }))

@@ -15,7 +15,7 @@ export function loadStoredCvs(): StoredCv[] {
       name: cv.name?.trim() || cv.data.personalInfo.fullName || 'İsimsiz CV',
       data: {
         ...cv.data,
-        theme: cv.data.theme ?? EMPTY_CV_DATA.theme,
+        theme: { ...EMPTY_CV_DATA.theme, ...cv.data.theme },
         personalInfo: {
           ...cv.data.personalInfo,
           photoDataUrl: cv.data.personalInfo.photoDataUrl ?? '',
