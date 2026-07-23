@@ -1,6 +1,7 @@
 import { clsx } from 'clsx'
 import { FileText, LayoutDashboard, Plus, Settings, Sparkles } from 'lucide-react'
 import { useState } from 'react'
+import { AdSlot } from '../ads/AdSlot'
 
 interface NavItem {
   id: string
@@ -83,6 +84,10 @@ export function Sidebar({ onCreateNew, onUploadCv, onNavigateSettings }: Sidebar
         >
           Dosya Yükle
         </button>
+      </div>
+
+      <div className="mt-4">
+        <AdSlot placement="sidebar" />
       </div>
     </aside>
   )

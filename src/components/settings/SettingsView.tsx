@@ -43,6 +43,8 @@ export function SettingsView({ cvs, onCancel, onImport, onClearAll }: SettingsVi
         </button>
       </div>
 
+      <AdSlot placement="settings-top" />
+
       <Card className="flex flex-col gap-3">
         <div>
           <h2 className="text-sm font-semibold text-text-primary">Verilerini Yedekle</h2>
@@ -112,7 +114,7 @@ export function SettingsView({ cvs, onCancel, onImport, onClearAll }: SettingsVi
         </Button>
       </Card>
 
-      <AdSlot placement="settings" />
+      <AdSlot placement="settings-bottom" />
     </div>
   )
 }

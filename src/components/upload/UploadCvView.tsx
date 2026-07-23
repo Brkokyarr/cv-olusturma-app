@@ -54,6 +54,8 @@ export function UploadCvView({ onCancel, onParsed }: UploadCvViewProps) {
         </button>
       </div>
 
+      <AdSlot placement="upload-top" />
+
       <div
         onDragOver={(event) => {
           event.preventDefault()
@@ -118,7 +120,7 @@ export function UploadCvView({ onCancel, onParsed }: UploadCvViewProps) {
         geçirin.
       </p>
 
-      <AdSlot placement="upload" />
+      <AdSlot placement="upload-bottom" />
     </div>
   )
 }

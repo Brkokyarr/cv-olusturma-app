@@ -178,6 +178,10 @@ export function App() {
         </p>
       </div>
 
+      <div className="mb-8">
+        <AdSlot placement="dashboard-top" />
+      </div>
+
       <div>
         <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
 
@@ -207,7 +211,7 @@ export function App() {
       </div>
 
       <div className="mt-8">
-        <AdSlot placement="dashboard" />
+        <AdSlot placement="dashboard-mid" />
       </div>
 
       <Card className="mt-8 flex flex-col items-start justify-between gap-4 border-accent/30 bg-gradient-to-r from-surface to-surface-raised sm:flex-row sm:items-center">
@@ -237,6 +241,10 @@ export function App() {
       <div className="mt-8">
         <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
         <TemplateGrid onSelectTemplate={handleSelectTemplate} />
+      </div>
+
+      <div className="mt-8">
+        <AdSlot placement="dashboard-bottom" />
       </div>
 
       {downloadingCv && (

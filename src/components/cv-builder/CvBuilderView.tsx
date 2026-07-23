@@ -119,7 +119,7 @@ export function CvBuilderView({
         onStepSelect={setCurrentStep}
       />
 
-      <AdSlot placement="builder" />
+      <AdSlot placement="builder-top" />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="rounded-card border border-border bg-surface p-6">
@@ -238,6 +238,7 @@ export function CvBuilderView({
             </p>
           )}
           <CvPreview ref={previewRef} data={previewData} />
+          <AdSlot placement="builder-sidebar" />
         </div>
       </div>
 
