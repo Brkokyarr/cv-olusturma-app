@@ -464,6 +464,7 @@ export function parseCvTextHeuristically(rawText: string): CvData {
     languages: parseLanguages(sections.languages),
     certificates: splitBlocks(sections.certificates).map(parseCertificateBlock),
     references: splitBlocks(sections.references).map(parseReferenceBlock),
+    customFields: [],
     sectionOrder: EMPTY_CV_DATA.sectionOrder,
   }
 }

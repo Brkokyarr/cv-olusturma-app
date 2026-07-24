@@ -26,6 +26,8 @@ function isSectionEmpty(data: CvData, key: SectionKey): boolean {
       return data.certificates.length === 0
     case 'references':
       return data.references.length === 0
+    case 'customFields':
+      return data.customFields.length === 0
     default:
       return true
   }

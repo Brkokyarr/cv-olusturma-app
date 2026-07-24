@@ -8,6 +8,7 @@ import { Button } from '../ui/Button'
 import { CvPreview } from './CvPreview'
 import { StepIndicator } from './StepIndicator'
 import { CertificatesStep } from './steps/CertificatesStep'
+import { CustomFieldsStep } from './steps/CustomFieldsStep'
 import { EducationStep } from './steps/EducationStep'
 import { ExperienceStep } from './steps/ExperienceStep'
 import { LanguagesStep } from './steps/LanguagesStep'
@@ -27,7 +28,8 @@ function isCvDataEmpty(data: CvData): boolean {
     data.skills.length === 0 &&
     data.languages.length === 0 &&
     data.certificates.length === 0 &&
-    data.references.length === 0
+    data.references.length === 0 &&
+    data.customFields.length === 0
   )
 }
 
@@ -41,6 +43,7 @@ const STEP_LABELS = [
   'Diller',
   'Sertifikalar',
   'Referanslar',
+  'Ek Bilgiler',
   'Sıralama',
 ]
 
@@ -187,6 +190,12 @@ export function CvBuilderView({
             />
           )}
           {currentStep === 9 && (
+            <CustomFieldsStep
+              items={cvData.customFields}
+              onChange={(customFields) => setCvData((prev) => ({ ...prev, customFields }))}
+            />
+          )}
+          {currentStep === 10 && (
             <SectionOrderStep
               data={cvData}
               order={cvData.sectionOrder}

@@ -6,6 +6,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Tag,
   User,
   Users,
   Wrench,
@@ -64,7 +65,8 @@ function SidebarCard({
 }
 
 export function AfisTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
+    data
 
   return (
     <div className="flex flex-col">
@@ -236,6 +238,21 @@ export function AfisTemplate({ data, accent }: TemplateProps) {
                 {references.map((item) => (
                   <span key={item.id}>
                     {item.name} {item.relation && `— ${item.relation}`} {item.contact && `· ${item.contact}`}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {customFields.length > 0 && (
+            <section>
+              <SectionHeading icon={Tag} className={`text-xs ${accent.textClass}`}>
+                Ek Bilgiler
+              </SectionHeading>
+              <div className="mt-2 flex flex-col gap-1 text-xs text-ink-secondary">
+                {customFields.map((item) => (
+                  <span key={item.id}>
+                    <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
                   </span>
                 ))}
               </div>

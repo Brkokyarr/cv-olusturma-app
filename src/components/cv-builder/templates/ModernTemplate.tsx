@@ -6,6 +6,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Tag,
   User,
   Users,
   Wrench,
@@ -16,7 +17,8 @@ import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
 export function ModernTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
+    data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -132,6 +134,20 @@ export function ModernTemplate({ data, accent }: TemplateProps) {
           {references.map((item) => (
             <span key={item.id}>
               {item.name} {item.relation && `— ${item.relation}`} {item.contact && `· ${item.contact}`}
+            </span>
+          ))}
+        </div>
+      </section>
+    ),
+    customFields: customFields.length > 0 && (
+      <section className="mt-4">
+        <SectionHeading icon={Tag} className="text-xs text-ink-secondary">
+          Ek Bilgiler
+        </SectionHeading>
+        <div className="mt-1.5 flex flex-col gap-1 text-xs text-ink-secondary">
+          {customFields.map((item) => (
+            <span key={item.id}>
+              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
             </span>
           ))}
         </div>

@@ -3,6 +3,7 @@ import {
   Briefcase,
   GraduationCap,
   Languages as LanguagesIcon,
+  Tag,
   User,
   Users,
   Wrench,
@@ -18,6 +19,7 @@ export const SECTION_LABELS: Record<SectionKey, string> = {
   languages: 'Diller',
   certificates: 'Sertifikalar',
   references: 'Referanslar',
+  customFields: 'Ek Bilgiler',
 }
 
 export const SECTION_ICONS: Record<SectionKey, LucideIcon> = {
@@ -28,6 +30,7 @@ export const SECTION_ICONS: Record<SectionKey, LucideIcon> = {
   languages: LanguagesIcon,
   certificates: Award,
   references: Users,
+  customFields: Tag,
 }
 
 function isSectionKey(value: unknown): value is SectionKey {

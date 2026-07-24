@@ -20,6 +20,7 @@ export function loadStoredCvs(): StoredCv[] {
           ...cv.data.personalInfo,
           photoDataUrl: cv.data.personalInfo.photoDataUrl ?? '',
         },
+        customFields: cv.data.customFields ?? [],
         sectionOrder: normalizeSectionOrder(cv.data.sectionOrder),
       },
     }))

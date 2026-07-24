@@ -6,6 +6,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Tag,
   Users,
   Wrench,
 } from 'lucide-react'
@@ -14,7 +15,7 @@ import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
-const MAIN_SECTION_KEYS: SectionKey[] = ['summary', 'experience', 'education', 'references']
+const MAIN_SECTION_KEYS: SectionKey[] = ['summary', 'experience', 'education', 'references', 'customFields']
 
 function initials(fullName: string): string {
   const parts = fullName.trim().split(/\s+/).filter(Boolean)
@@ -26,7 +27,8 @@ function initials(fullName: string): string {
 }
 
 export function KompaktTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
+    data
 
   const mainSectionRenderers: Partial<Record<SectionKey, ReactNode>> = {
     summary: summary && (
@@ -97,6 +99,20 @@ export function KompaktTemplate({ data, accent }: TemplateProps) {
           {references.map((item) => (
             <span key={item.id}>
               {item.name} {item.relation && `— ${item.relation}`} {item.contact && `· ${item.contact}`}
+            </span>
+          ))}
+        </div>
+      </section>
+    ),
+    customFields: customFields.length > 0 && (
+      <section>
+        <SectionHeading icon={Tag} className="text-xs text-ink-secondary">
+          Ek Bilgiler
+        </SectionHeading>
+        <div className="mt-1.5 flex flex-col gap-1 text-xs text-ink-secondary">
+          {customFields.map((item) => (
+            <span key={item.id}>
+              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
             </span>
           ))}
         </div>

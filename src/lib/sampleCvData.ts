@@ -43,4 +43,5 @@ export const SAMPLE_CV_DATA: CvData = {
   languages: [{ id: 'sample-lang-1', name: 'İngilizce', level: 'İleri' }],
   certificates: [],
   references: [],
+  customFields: [{ id: 'sample-cf-1', label: 'Sürücü Belgesi', value: 'B Sınıfı' }],
 }
