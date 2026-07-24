@@ -226,11 +226,10 @@ export function App() {
 
       <div>
         <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
-        <TemplateGrid onSelectTemplate={handleSelectTemplate} />
-      </div>
-
-      <div className="mt-8">
-        <AdSlot placement="dashboard-mid" />
+        <TemplateGrid
+          onSelectTemplate={handleSelectTemplate}
+          adSlot={<AdSlot placement="dashboard-mid" />}
+        />
       </div>
 
       {cvs.length > 0 && (
