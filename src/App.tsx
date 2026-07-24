@@ -178,6 +178,30 @@ export function App() {
         </p>
       </div>
 
+      <Card className="mb-8 flex flex-col items-start justify-between gap-4 border-accent/30 bg-gradient-to-r from-surface to-surface-raised sm:flex-row sm:items-center">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+            <UploadCloud className="h-5 w-5" />
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-text-primary">Eski CV'ni yükle</h2>
+              <Badge tone="accent">Otomatik doldur</Badge>
+            </div>
+            <p className="mt-1 text-xs text-text-secondary">
+              PDF veya Word yükle; bilgilerin otomatik olarak şablona yerleşsin.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => setView('upload')}
+          className="w-full shrink-0 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-accent-hover sm:w-auto"
+        >
+          Dosya Seç
+        </button>
+      </Card>
+
       <div className="mb-8">
         <AdSlot placement="dashboard-top" />
       </div>
@@ -219,30 +243,6 @@ export function App() {
       <div className="mt-8">
         <AdSlot placement="dashboard-mid" />
       </div>
-
-      <Card className="mt-8 flex flex-col items-start justify-between gap-4 border-accent/30 bg-gradient-to-r from-surface to-surface-raised sm:flex-row sm:items-center">
-        <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
-            <UploadCloud className="h-5 w-5" />
-          </span>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm font-semibold text-text-primary">Eski CV'ni yükle</h2>
-              <Badge tone="accent">Otomatik doldur</Badge>
-            </div>
-            <p className="mt-1 text-xs text-text-secondary">
-              PDF veya Word yükle; bilgilerin otomatik olarak şablona yerleşsin.
-            </p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setView('upload')}
-          className="w-full shrink-0 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-accent-hover sm:w-auto"
-        >
-          Dosya Seç
-        </button>
-      </Card>
 
       <div className="mt-8">
         <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
