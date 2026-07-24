@@ -1,4 +1,4 @@
-import { FileText, Plus, UploadCloud } from 'lucide-react'
+import { Plus, UploadCloud } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { AdSlot } from './components/ads/AdSlot'
 import { CvBuilderView } from './components/cv-builder/CvBuilderView'
@@ -8,7 +8,6 @@ import { DashboardLayout } from './components/dashboard/DashboardLayout'
 import { SettingsView } from './components/settings/SettingsView'
 import { TemplateGrid } from './components/template-gallery/TemplateGrid'
 import { Badge } from './components/ui/Badge'
-import { Button } from './components/ui/Button'
 import { Card } from './components/ui/Card'
 import { UploadCvView } from './components/upload/UploadCvView'
 import { exportElementToPdf, PDF_EXPORT_WIDTH_PX } from './lib/exportPdf'
@@ -226,23 +225,13 @@ export function App() {
       </div>
 
       <div>
-        <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
+        <TemplateGrid onSelectTemplate={handleSelectTemplate} />
+      </div>
 
-        {cvs.length === 0 ? (
-          <Card className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-            <FileText className="h-8 w-8 text-text-muted" />
-            <p className="text-sm text-text-secondary">Henüz bir CV oluşturmadınız.</p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              <Button variant="primary" onClick={handleCreateNew}>
-                İlk CV'ni Oluştur
-              </Button>
-              <Button variant="secondary" onClick={() => setView('upload')}>
-                <UploadCloud className="h-4 w-4" />
-                CV Yükle
-              </Button>
-            </div>
-          </Card>
-        ) : (
+      {cvs.length > 0 && (
+        <div className="mt-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {cvs.map((cv) => (
               <CvCard
@@ -256,16 +245,11 @@ export function App() {
               />
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="mt-8">
         <AdSlot placement="dashboard-mid" />
-      </div>
-
-      <div className="mt-8">
-        <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
-        <TemplateGrid onSelectTemplate={handleSelectTemplate} />
       </div>
 
       <div className="mt-8">
