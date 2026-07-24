@@ -2,6 +2,7 @@ import { clsx } from 'clsx'
 import { forwardRef } from 'react'
 import { getAccentPalette, getPaperBgClass } from '../../lib/theme'
 import type { CvData, TemplateId } from '../../types/cv'
+import { AfisTemplate } from './templates/AfisTemplate'
 import { BoldTemplate } from './templates/BoldTemplate'
 import { KartTemplate } from './templates/KartTemplate'
 import { KlasikTemplate } from './templates/KlasikTemplate'
@@ -33,6 +34,7 @@ const TEMPLATE_COMPONENTS: Record<TemplateId, typeof ModernTemplate> = {
   sik: SikTemplate,
   zarif: ZarifTemplate,
   kart: KartTemplate,
+  afis: AfisTemplate,
 }
 
 export const CvPreview = forwardRef<HTMLDivElement, CvPreviewProps>(function CvPreview(

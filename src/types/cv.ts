@@ -74,6 +74,7 @@ export type TemplateId =
   | 'sik'
   | 'zarif'
   | 'kart'
+  | 'afis'
 
 export type AccentColorId =
   | 'antrasit'

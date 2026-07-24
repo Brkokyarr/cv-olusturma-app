@@ -136,6 +136,11 @@ export interface TemplateOption {
 
 export const TEMPLATE_OPTIONS: TemplateOption[] = [
   {
+    id: 'afis',
+    label: 'Afiş',
+    description: 'Renkli banner başlık, yetenek çubukları — Canva esintili göz alıcı tasarım.',
+  },
+  {
     id: 'kart',
     label: 'Kart',
     description: 'Her bölüm kendi kartında — modern, panel tarzı bir görünüm.',
