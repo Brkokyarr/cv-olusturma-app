@@ -1,16 +1,24 @@
 import { Loader2, Trash2, Upload, User } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { readImageAsResizedDataUrl } from '../../../lib/image'
-import type { PersonalInfo } from '../../../types/cv'
+import type { CustomFieldItem, PersonalInfo } from '../../../types/cv'
 import { Field } from '../../ui/Field'
 import { Input } from '../../ui/Input'
+import { CustomFieldsStep } from './CustomFieldsStep'
 
 interface PersonalInfoStepProps {
   data: PersonalInfo
   onChange: (patch: Partial<PersonalInfo>) => void
+  customFields: CustomFieldItem[]
+  onCustomFieldsChange: (items: CustomFieldItem[]) => void
 }
 
-export function PersonalInfoStep({ data, onChange }: PersonalInfoStepProps) {
+export function PersonalInfoStep({
+  data,
+  onChange,
+  customFields,
+  onCustomFieldsChange,
+}: PersonalInfoStepProps) {
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false)
   const [photoError, setPhotoError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -125,6 +133,11 @@ export function PersonalInfoStep({ data, onChange }: PersonalInfoStepProps) {
             placeholder="Örn. İstanbul, Türkiye"
           />
         </Field>
+      </div>
+
+      <div className="border-t border-border-subtle pt-5">
+        <h3 className="mb-1 text-sm font-semibold text-text-primary">Ek Bilgiler</h3>
+        <CustomFieldsStep items={customFields} onChange={onCustomFieldsChange} />
       </div>
     </div>
   )
