@@ -1,22 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { AD_SLOT_IDS, ADSENSE_CLIENT_ID, isAdsenseConfigured, type AdPlacementId } from '../../lib/ads'
 
-const ADSENSE_SCRIPT_ID = 'adsbygoogle-script'
-
+// AdSense'in ana scripti index.html'in <head>'ine (site doğrulaması için)
+// zaten ekli — burada sadece her reklam kutusu için `adsbygoogle.push({})`
+// tetiklenip o kutunun doldurulması isteniyor.
 declare global {
   interface Window {
     adsbygoogle?: unknown[]
   }
-}
-
-function ensureAdsenseScriptLoaded(clientId: string) {
-  if (document.getElementById(ADSENSE_SCRIPT_ID)) return
-  const script = document.createElement('script')
-  script.id = ADSENSE_SCRIPT_ID
-  script.async = true
-  script.crossOrigin = 'anonymous'
-  script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`
-  document.head.appendChild(script)
 }
 
 interface AdSlotProps {
@@ -30,7 +21,6 @@ export function AdSlot({ placement }: AdSlotProps) {
 
   useEffect(() => {
     if (!configured || !slotId) return
-    ensureAdsenseScriptLoaded(ADSENSE_CLIENT_ID)
     try {
       window.adsbygoogle = window.adsbygoogle || []
       window.adsbygoogle.push({})

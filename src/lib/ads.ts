@@ -18,7 +18,7 @@ export type AdPlacementId =
 //   kullanmak da sorun değil, sadece istatistikler ayrışmaz)
 // Bunlar boş bırakıldığı sürece gerçek reklam scripti hiç yüklenmez; ilgili
 // yerlerde sadece tasarım için yer tutucu bir kutu gösterilir.
-export const ADSENSE_CLIENT_ID = ''
+export const ADSENSE_CLIENT_ID = 'ca-pub-3039237513863224'
 
 export const AD_SLOT_IDS: Record<AdPlacementId, string> = {
   sidebar: '',
