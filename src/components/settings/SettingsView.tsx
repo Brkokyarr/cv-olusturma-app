@@ -115,6 +115,15 @@ export function SettingsView({ cvs, onCancel, onImport, onClearAll }: SettingsVi
       </Card>
 
       <AdSlot placement="settings-bottom" />
+
+      <a
+        href="/gizlilik-politikasi.html"
+        target="_blank"
+        rel="noreferrer"
+        className="self-center text-xs text-text-muted hover:text-text-secondary"
+      >
+        Gizlilik Politikası
+      </a>
     </div>
   )
 }

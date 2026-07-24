@@ -89,6 +89,15 @@ export function Sidebar({ onCreateNew, onUploadCv, onNavigateSettings }: Sidebar
       <div className="mt-4">
         <AdSlot placement="sidebar" />
       </div>
+
+      <a
+        href="/gizlilik-politikasi.html"
+        target="_blank"
+        rel="noreferrer"
+        className="mt-4 text-center text-[11px] text-text-muted hover:text-text-secondary"
+      >
+        Gizlilik Politikası
+      </a>
     </aside>
   )
 }
