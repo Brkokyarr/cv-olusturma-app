@@ -1,5 +1,5 @@
 import { clsx } from 'clsx'
-import { FileText, LayoutDashboard, Plus, Settings, Sparkles } from 'lucide-react'
+import { FileText, LayoutDashboard, Plus, Settings, Sparkles, UploadCloud } from 'lucide-react'
 import { useState } from 'react'
 import { AdSlot } from '../ads/AdSlot'
 
@@ -38,15 +38,26 @@ export function Sidebar({ onCreateNew, onUploadCv, onNavigateSettings }: Sidebar
         <span className="text-lg font-semibold text-text-primary">CV Panel</span>
       </div>
 
-      <button
-        type="button"
-        onClick={onCreateNew}
-        aria-label="Yeni CV oluştur"
-        className="mb-6 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-primary-hover"
-      >
-        <Plus className="h-4 w-4" />
-        Yeni CV Oluştur
-      </button>
+      <div className="mb-6 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={onCreateNew}
+          aria-label="Yeni CV oluştur"
+          className="flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-primary-hover"
+        >
+          <Plus className="h-4 w-4" />
+          Yeni CV
+        </button>
+        <button
+          type="button"
+          onClick={onUploadCv}
+          aria-label="Eski CV'ni yükle"
+          className="flex items-center justify-center gap-2 rounded-lg border border-accent/40 px-3 py-2.5 text-sm font-medium text-accent transition-colors hover:bg-accent/10"
+        >
+          <UploadCloud className="h-4 w-4" />
+          CV Yükle
+        </button>
+      </div>
 
       <nav className="flex flex-1 flex-col gap-1" aria-label="Ana menü">
         {NAV_ITEMS.map((item) => {
@@ -71,20 +82,6 @@ export function Sidebar({ onCreateNew, onUploadCv, onNavigateSettings }: Sidebar
           )
         })}
       </nav>
-
-      <div className="rounded-card border border-border-subtle bg-surface p-4">
-        <p className="text-sm font-medium text-text-primary">Eski CV'ni yükle</p>
-        <p className="mt-1 text-xs text-text-muted">
-          Otomatik analizle bilgilerin forma doldurulsun.
-        </p>
-        <button
-          type="button"
-          onClick={onUploadCv}
-          className="mt-3 w-full rounded-lg border border-accent/40 px-3 py-2 text-xs font-medium text-accent transition-colors hover:bg-accent/10"
-        >
-          Dosya Yükle
-        </button>
-      </div>
 
       <div className="mt-4">
         <AdSlot placement="sidebar" />
