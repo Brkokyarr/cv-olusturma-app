@@ -189,9 +189,15 @@ export function App() {
           <Card className="flex flex-col items-center justify-center gap-3 py-12 text-center">
             <FileText className="h-8 w-8 text-text-muted" />
             <p className="text-sm text-text-secondary">Henüz bir CV oluşturmadınız.</p>
-            <Button variant="primary" onClick={handleCreateNew}>
-              İlk CV'ni Oluştur
-            </Button>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Button variant="primary" onClick={handleCreateNew}>
+                İlk CV'ni Oluştur
+              </Button>
+              <Button variant="secondary" onClick={() => setView('upload')}>
+                <UploadCloud className="h-4 w-4" />
+                CV Yükle
+              </Button>
+            </div>
           </Card>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
