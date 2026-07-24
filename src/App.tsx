@@ -1,4 +1,4 @@
-import { FileText, UploadCloud } from 'lucide-react'
+import { FileText, Plus, UploadCloud } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { AdSlot } from './components/ads/AdSlot'
 import { CvBuilderView } from './components/cv-builder/CvBuilderView'
@@ -178,29 +178,48 @@ export function App() {
         </p>
       </div>
 
-      <Card className="mb-8 flex flex-col items-start justify-between gap-4 border-accent/30 bg-gradient-to-r from-surface to-surface-raised sm:flex-row sm:items-center">
-        <div className="flex items-start gap-3">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Card className="flex flex-col items-start gap-3 border-primary/30 bg-gradient-to-br from-surface to-surface-raised">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+            <Plus className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-sm font-semibold text-text-primary">Yeni CV Oluştur</h2>
+            <p className="mt-1 text-xs text-text-secondary">
+              Sıfırdan başla, adım adım kendi CV'ni oluştur.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleCreateNew}
+            className="mt-auto w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-primary-hover"
+          >
+            Yeni CV Oluştur
+          </button>
+        </Card>
+
+        <Card className="flex flex-col items-start gap-3 border-accent/30 bg-gradient-to-br from-surface to-surface-raised">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
             <UploadCloud className="h-5 w-5" />
           </span>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-semibold text-text-primary">Eski CV'ni yükle</h2>
+              <h2 className="text-sm font-semibold text-text-primary">Eski CV'ni Yükle</h2>
               <Badge tone="accent">Otomatik doldur</Badge>
             </div>
             <p className="mt-1 text-xs text-text-secondary">
               PDF veya Word yükle; bilgilerin otomatik olarak şablona yerleşsin.
             </p>
           </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setView('upload')}
-          className="w-full shrink-0 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-accent-hover sm:w-auto"
-        >
-          Dosya Seç
-        </button>
-      </Card>
+          <button
+            type="button"
+            onClick={() => setView('upload')}
+            className="mt-auto w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-accent-hover"
+          >
+            Dosya Seç
+          </button>
+        </Card>
+      </div>
 
       <div className="mb-8">
         <AdSlot placement="dashboard-top" />
