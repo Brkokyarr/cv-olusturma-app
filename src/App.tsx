@@ -229,6 +229,10 @@ export function App() {
         <TemplateGrid onSelectTemplate={handleSelectTemplate} />
       </div>
 
+      <div className="mt-8">
+        <AdSlot placement="dashboard-mid" />
+      </div>
+
       {cvs.length > 0 && (
         <div className="mt-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
@@ -247,10 +251,6 @@ export function App() {
           </div>
         </div>
       )}
-
-      <div className="mt-8">
-        <AdSlot placement="dashboard-mid" />
-      </div>
 
       <div className="mt-8">
         <AdSlot placement="dashboard-bottom" />
