@@ -247,7 +247,7 @@ export function CvBuilderView({
         style={{ width: PDF_EXPORT_WIDTH_PX }}
         aria-hidden="true"
       >
-        <CvPreview ref={exportRef} data={cvData} id="cv-preview-export" fixedAspect={false} />
+        <CvPreview ref={exportRef} data={cvData} id="cv-preview-export" fixedAspect={false} fillA4 />
       </div>
     </div>
   )

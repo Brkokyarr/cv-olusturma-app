@@ -19,6 +19,7 @@ interface CvPreviewProps {
   id?: string
   scrollable?: boolean
   fixedAspect?: boolean
+  fillA4?: boolean
 }
 
 export const CV_PREVIEW_ELEMENT_ID = 'cv-preview-paper'
@@ -38,7 +39,7 @@ const TEMPLATE_COMPONENTS: Record<TemplateId, typeof ModernTemplate> = {
 }
 
 export const CvPreview = forwardRef<HTMLDivElement, CvPreviewProps>(function CvPreview(
-  { data, id = CV_PREVIEW_ELEMENT_ID, scrollable = true, fixedAspect = true },
+  { data, id = CV_PREVIEW_ELEMENT_ID, scrollable = true, fixedAspect = true, fillA4 = false },
   ref,
 ) {
   const accent = getAccentPalette(data.theme.accentColor)
@@ -54,11 +55,19 @@ export const CvPreview = forwardRef<HTMLDivElement, CvPreviewProps>(function CvP
         paperBgClass,
         fixedAspect
           ? clsx('aspect-[210/297]', scrollable ? 'overflow-y-auto' : 'overflow-hidden')
-          // PDF dışa aktarımında A4 oranını CSS aspect-ratio ile zorlamak
-          // yerine içeriğin doğal yüksekliğine bırakıyoruz — html2canvas
-          // aspect-ratio'yu güvenilir yorumlamıyor, bu da boş sayfalara yol
-          // açabiliyor (bkz. src/lib/exportPdf.ts).
-          : 'h-auto overflow-visible',
+          : clsx(
+              // PDF dışa aktarımında A4 oranını CSS aspect-ratio ile zorlamak
+              // yerine içeriğin doğal yüksekliğine bırakıyoruz — html2canvas
+              // aspect-ratio'yu güvenilir yorumlamıyor, bu da boş sayfalara yol
+              // açabiliyor (bkz. src/lib/exportPdf.ts). Ama PDF çıktısında
+              // içerik A4'ü doldurmasa bile kağıt/tema rengi tüm sayfayı
+              // kaplasın diye min-height ile A4 oranını (297/210) tabana
+              // sabitliyoruz — bu min-h, aspect-ratio'dan farklı olarak
+              // html2canvas'ta güvenilir çalışıyor. Değer PDF_EXPORT_WIDTH_PX
+              // (794px) genişliğine karşılık gelen A4 yüksekliğidir.
+              'h-auto overflow-visible',
+              fillA4 && 'min-h-[1123px]',
+            ),
       )}
     >
       <Template data={data} accent={accent} />

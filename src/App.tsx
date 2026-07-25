@@ -261,7 +261,7 @@ export function App() {
           style={{ width: PDF_EXPORT_WIDTH_PX }}
           aria-hidden="true"
         >
-          <CvPreview ref={exportRef} data={downloadingCv.data} fixedAspect={false} />
+          <CvPreview ref={exportRef} data={downloadingCv.data} fixedAspect={false} fillA4 />
         </div>
       )}
     </DashboardLayout>
