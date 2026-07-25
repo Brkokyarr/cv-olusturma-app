@@ -224,16 +224,8 @@ export function App() {
         <AdSlot placement="dashboard-top" />
       </div>
 
-      <div>
-        <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
-        <TemplateGrid
-          onSelectTemplate={handleSelectTemplate}
-          adSlot={<AdSlot placement="dashboard-mid" />}
-        />
-      </div>
-
       {cvs.length > 0 && (
-        <div className="mt-8">
+        <div id="cvlerim" className="mb-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">CV'lerim</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {cvs.map((cv) => (
@@ -250,6 +242,14 @@ export function App() {
           </div>
         </div>
       )}
+
+      <div>
+        <h2 className="mb-4 text-lg font-semibold text-text-primary">Şablonlar</h2>
+        <TemplateGrid
+          onSelectTemplate={handleSelectTemplate}
+          adSlot={<AdSlot placement="dashboard-mid" />}
+        />
+      </div>
 
       <div className="mt-8">
         <AdSlot placement="dashboard-bottom" />

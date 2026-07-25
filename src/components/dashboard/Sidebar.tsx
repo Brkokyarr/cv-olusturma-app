@@ -26,7 +26,17 @@ export function Sidebar({ onCreateNew, onUploadCv, onNavigateSettings }: Sidebar
 
   function handleNavClick(id: string) {
     setActiveId(id)
-    if (id === 'ayarlar') onNavigateSettings()
+    if (id === 'ayarlar') {
+      onNavigateSettings()
+      return
+    }
+    if (id === 'cvlerim') {
+      document.getElementById('cvlerim')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+    if (id === 'panel') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   return (
