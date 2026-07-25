@@ -38,7 +38,12 @@ export function PersonalInfoStep({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-4">
+      <div>
+        <h3 className="mb-1 text-sm font-semibold text-text-primary">Ek Bilgiler</h3>
+        <CustomFieldsStep items={customFields} onChange={onCustomFieldsChange} />
+      </div>
+
+      <div className="flex items-center gap-4 border-t border-border-subtle pt-6">
         <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-background">
           {isUploadingPhoto ? (
             <Loader2 className="h-6 w-6 animate-spin text-text-muted" />
@@ -133,11 +138,6 @@ export function PersonalInfoStep({
             placeholder="Örn. İstanbul, Türkiye"
           />
         </Field>
-      </div>
-
-      <div className="border-t border-border-subtle pt-5">
-        <h3 className="mb-1 text-sm font-semibold text-text-primary">Ek Bilgiler</h3>
-        <CustomFieldsStep items={customFields} onChange={onCustomFieldsChange} />
       </div>
     </div>
   )
