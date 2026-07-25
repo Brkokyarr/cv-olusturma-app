@@ -3,18 +3,17 @@ import {
   Briefcase,
   GraduationCap,
   Languages as LanguagesIcon,
-  Tag,
   Users,
   Wrench,
 } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
 export function MinimalistTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -135,23 +134,6 @@ export function MinimalistTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section>
-        <SectionHeading
-          icon={Tag}
-          className="text-[10px] font-medium uppercase tracking-[0.25em] text-ink-muted"
-        >
-          Ek Bilgiler
-        </SectionHeading>
-        <div className="mt-2 flex flex-col gap-1 text-xs font-light text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   return (
@@ -172,7 +154,12 @@ export function MinimalistTemplate({ data, accent }: TemplateProps) {
             <p className="mt-0.5 text-xs text-ink-muted">{personalInfo.title}</p>
           )}
           <p className="mt-3 text-[11px] tracking-wide text-ink-muted">
-            {[personalInfo.email, personalInfo.phone, personalInfo.location]
+            {[
+              personalInfo.email,
+              personalInfo.phone,
+              personalInfo.location,
+              personalInfo.smoking && `Sigara Kullanımı: ${getSmokingLabel(personalInfo.smoking)}`,
+            ]
               .filter(Boolean)
               .join('   ·   ')}
           </p>

@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 
@@ -13,8 +14,7 @@ function ZarifHeading({ children, accentTextClass }: { children: ReactNode; acce
 }
 
 export function ZarifTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -112,18 +112,6 @@ export function ZarifTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section className="mt-6">
-        <ZarifHeading accentTextClass={accent.textClass}>Ek Bilgiler</ZarifHeading>
-        <div className="mt-2 flex flex-col gap-1 text-xs font-light text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   return (
@@ -151,7 +139,12 @@ export function ZarifTemplate({ data, accent }: TemplateProps) {
       <div className={`mt-4 h-px w-full ${accent.bgClass}`} />
 
       <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] tracking-wide text-ink-muted">
-        {[personalInfo.email, personalInfo.phone, personalInfo.location]
+        {[
+          personalInfo.email,
+          personalInfo.phone,
+          personalInfo.location,
+          personalInfo.smoking && `Sigara Kullanımı: ${getSmokingLabel(personalInfo.smoking)}`,
+        ]
           .filter(Boolean)
           .map((value, index) => (
             <span key={value}>

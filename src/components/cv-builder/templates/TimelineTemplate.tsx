@@ -6,19 +6,18 @@ import {
   Mail,
   MapPin,
   Phone,
-  Tag,
   User,
   Users,
   Wrench,
 } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
 export function TimelineTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -147,20 +146,6 @@ export function TimelineTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section className="mt-5">
-        <SectionHeading icon={Tag} className="text-xs text-ink-secondary">
-          Ek Bilgiler
-        </SectionHeading>
-        <div className="mt-1.5 flex flex-col gap-1 text-xs text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   return (
@@ -200,6 +185,9 @@ export function TimelineTemplate({ data, accent }: TemplateProps) {
                 <MapPin className="h-3 w-3" />
                 {personalInfo.location}
               </span>
+            )}
+            {personalInfo.smoking && (
+              <span>Sigara Kullanımı: {getSmokingLabel(personalInfo.smoking)}</span>
             )}
           </div>
         </div>

@@ -3,18 +3,17 @@ import {
   Briefcase,
   GraduationCap,
   Languages as LanguagesIcon,
-  Tag,
   Users,
   Wrench,
 } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
 export function KlasikTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -137,23 +136,6 @@ export function KlasikTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section className="mt-5">
-        <SectionHeading
-          icon={Tag}
-          className="justify-center border-b border-ink/20 pb-1 text-xs tracking-[0.2em] text-ink"
-        >
-          Ek Bilgiler
-        </SectionHeading>
-        <div className="mt-3 flex flex-col gap-1 text-center text-xs text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   return (
@@ -175,7 +157,12 @@ export function KlasikTemplate({ data, accent }: TemplateProps) {
           </p>
         )}
         <div className="mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs text-ink-secondary">
-          {[personalInfo.email, personalInfo.phone, personalInfo.location]
+          {[
+            personalInfo.email,
+            personalInfo.phone,
+            personalInfo.location,
+            personalInfo.smoking && `Sigara Kullanımı: ${getSmokingLabel(personalInfo.smoking)}`,
+          ]
             .filter(Boolean)
             .map((value, index) => (
               <span key={value}>

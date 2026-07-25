@@ -27,8 +27,7 @@ function isCvDataEmpty(data: CvData): boolean {
     data.skills.length === 0 &&
     data.languages.length === 0 &&
     data.certificates.length === 0 &&
-    data.references.length === 0 &&
-    data.customFields.length === 0
+    data.references.length === 0
   )
 }
 
@@ -143,8 +142,6 @@ export function CvBuilderView({
                   personalInfo: { ...prev.personalInfo, ...patch },
                 }))
               }
-              customFields={cvData.customFields}
-              onCustomFieldsChange={(customFields) => setCvData((prev) => ({ ...prev, customFields }))}
             />
           )}
           {currentStep === 2 && (

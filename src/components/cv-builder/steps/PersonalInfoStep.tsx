@@ -1,24 +1,22 @@
+import { clsx } from 'clsx'
 import { Loader2, Trash2, Upload, User } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { readImageAsResizedDataUrl } from '../../../lib/image'
-import type { CustomFieldItem, PersonalInfo } from '../../../types/cv'
+import type { PersonalInfo, SmokingStatus } from '../../../types/cv'
 import { Field } from '../../ui/Field'
 import { Input } from '../../ui/Input'
-import { CustomFieldsStep } from './CustomFieldsStep'
 
 interface PersonalInfoStepProps {
   data: PersonalInfo
   onChange: (patch: Partial<PersonalInfo>) => void
-  customFields: CustomFieldItem[]
-  onCustomFieldsChange: (items: CustomFieldItem[]) => void
 }
 
-export function PersonalInfoStep({
-  data,
-  onChange,
-  customFields,
-  onCustomFieldsChange,
-}: PersonalInfoStepProps) {
+const SMOKING_OPTIONS: { id: SmokingStatus; label: string }[] = [
+  { id: 'evet', label: 'Evet' },
+  { id: 'hayir', label: 'Hayır' },
+]
+
+export function PersonalInfoStep({ data, onChange }: PersonalInfoStepProps) {
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false)
   const [photoError, setPhotoError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -38,12 +36,7 @@ export function PersonalInfoStep({
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h3 className="mb-1 text-sm font-semibold text-text-primary">Ek Bilgiler</h3>
-        <CustomFieldsStep items={customFields} onChange={onCustomFieldsChange} />
-      </div>
-
-      <div className="flex items-center gap-4 border-t border-border-subtle pt-6">
+      <div className="flex items-center gap-4">
         <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-background">
           {isUploadingPhoto ? (
             <Loader2 className="h-6 w-6 animate-spin text-text-muted" />
@@ -137,6 +130,29 @@ export function PersonalInfoStep({
             onChange={(e) => onChange({ location: e.target.value })}
             placeholder="Örn. İstanbul, Türkiye"
           />
+        </Field>
+        <Field label="Sigara Kullanımı" htmlFor="smoking">
+          <div id="smoking" className="flex gap-2">
+            {SMOKING_OPTIONS.map((option) => {
+              const isSelected = data.smoking === option.id
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => onChange({ smoking: isSelected ? '' : option.id })}
+                  aria-pressed={isSelected}
+                  className={clsx(
+                    'flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
+                    isSelected
+                      ? 'border-primary bg-primary-muted text-primary'
+                      : 'border-border bg-background text-text-secondary hover:bg-surface-hover',
+                  )}
+                >
+                  {option.label}
+                </button>
+              )
+            })}
+          </div>
         </Field>
       </div>
     </div>

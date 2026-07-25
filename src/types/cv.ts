@@ -1,3 +1,5 @@
+export type SmokingStatus = '' | 'evet' | 'hayir'
+
 export interface PersonalInfo {
   fullName: string
   title: string
@@ -5,6 +7,7 @@ export interface PersonalInfo {
   phone: string
   location: string
   photoDataUrl: string
+  smoking: SmokingStatus
 }
 
 export interface ExperienceItem {
@@ -44,12 +47,6 @@ export interface ReferenceItem {
   contact: string
 }
 
-export interface CustomFieldItem {
-  id: string
-  label: string
-  value: string
-}
-
 export type SectionKey =
   | 'summary'
   | 'experience'
@@ -58,7 +55,6 @@ export type SectionKey =
   | 'languages'
   | 'certificates'
   | 'references'
-  | 'customFields'
 
 export const DEFAULT_SECTION_ORDER: SectionKey[] = [
   'summary',
@@ -68,7 +64,6 @@ export const DEFAULT_SECTION_ORDER: SectionKey[] = [
   'languages',
   'certificates',
   'references',
-  'customFields',
 ]
 
 export type TemplateId =
@@ -124,7 +119,6 @@ export interface CvData {
   languages: LanguageItem[]
   certificates: CertificateItem[]
   references: ReferenceItem[]
-  customFields: CustomFieldItem[]
   sectionOrder: SectionKey[]
 }
 
@@ -149,6 +143,7 @@ export const EMPTY_CV_DATA: CvData = {
     phone: '',
     location: '',
     photoDataUrl: '',
+    smoking: '',
   },
   summary: '',
   experience: [],
@@ -157,6 +152,5 @@ export const EMPTY_CV_DATA: CvData = {
   languages: [],
   certificates: [],
   references: [],
-  customFields: [],
   sectionOrder: [...DEFAULT_SECTION_ORDER],
 }

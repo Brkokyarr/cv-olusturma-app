@@ -52,7 +52,10 @@ export async function parseImportedCvsFile(file: File): Promise<StoredCv[]> {
     data: {
       ...cv.data,
       theme: { ...EMPTY_CV_DATA.theme, ...cv.data.theme },
-      customFields: cv.data.customFields ?? [],
+      personalInfo: {
+        ...cv.data.personalInfo,
+        smoking: cv.data.personalInfo.smoking ?? '',
+      },
       sectionOrder: normalizeSectionOrder(cv.data.sectionOrder),
     },
   }))

@@ -456,6 +456,7 @@ export function parseCvTextHeuristically(rawText: string): CvData {
       phone: findPhoneNumber(text),
       location,
       photoDataUrl: '',
+      smoking: '',
     },
     summary,
     experience: splitBlocks(sections.experience).flatMap(parseExperienceBlocks),
@@ -464,7 +465,6 @@ export function parseCvTextHeuristically(rawText: string): CvData {
     languages: parseLanguages(sections.languages),
     certificates: splitBlocks(sections.certificates).map(parseCertificateBlock),
     references: splitBlocks(sections.references).map(parseReferenceBlock),
-    customFields: [],
     sectionOrder: EMPTY_CV_DATA.sectionOrder,
   }
 }

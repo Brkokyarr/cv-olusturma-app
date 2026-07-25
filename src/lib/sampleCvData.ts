@@ -9,6 +9,7 @@ export const SAMPLE_CV_DATA: CvData = {
     phone: '0532 123 45 67',
     location: 'İstanbul, Türkiye',
     photoDataUrl: '',
+    smoking: 'hayir',
   },
   summary:
     '5 yıllık deneyime sahip, kullanıcı odaklı ürün tasarımcısı. Dijital ürünlerde uçtan uca tasarım süreçlerini yönetiyorum.',
@@ -43,5 +44,4 @@ export const SAMPLE_CV_DATA: CvData = {
   languages: [{ id: 'sample-lang-1', name: 'İngilizce', level: 'İleri' }],
   certificates: [],
   references: [],
-  customFields: [{ id: 'sample-cf-1', label: 'Sürücü Belgesi', value: 'B Sınıfı' }],
 }

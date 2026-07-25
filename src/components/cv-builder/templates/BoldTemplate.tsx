@@ -2,17 +2,18 @@ import {
   Award,
   Briefcase,
   GraduationCap,
+  Info,
   Languages as LanguagesIcon,
   Mail,
   MapPin,
   Phone,
-  Tag,
   User,
   Users,
   Wrench,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 
@@ -45,8 +46,7 @@ function PillHeading({
 }
 
 export function BoldTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const sectionRenderers: Record<SectionKey, ReactNode> = {
     summary: summary && (
@@ -167,20 +167,6 @@ export function BoldTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section className="mt-5">
-        <PillHeading icon={Tag} accentBgClass={accent.bgClass}>
-          Ek Bilgiler
-        </PillHeading>
-        <div className="mt-2 flex flex-col gap-1 text-xs text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   return (
@@ -207,6 +193,11 @@ export function BoldTemplate({ data, accent }: TemplateProps) {
             {personalInfo.phone && <ContactBadge icon={Phone}>{personalInfo.phone}</ContactBadge>}
             {personalInfo.location && (
               <ContactBadge icon={MapPin}>{personalInfo.location}</ContactBadge>
+            )}
+            {personalInfo.smoking && (
+              <ContactBadge icon={Info}>
+                Sigara Kullanımı: {getSmokingLabel(personalInfo.smoking)}
+              </ContactBadge>
             )}
           </div>
         </div>

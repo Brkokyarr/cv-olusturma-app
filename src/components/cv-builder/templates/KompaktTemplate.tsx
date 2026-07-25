@@ -6,16 +6,16 @@ import {
   Mail,
   MapPin,
   Phone,
-  Tag,
   Users,
   Wrench,
 } from 'lucide-react'
 import { Fragment, type ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import type { SectionKey } from '../../../types/cv'
 import type { TemplateProps } from './TemplateProps'
 import { SectionHeading } from './SectionHeading'
 
-const MAIN_SECTION_KEYS: SectionKey[] = ['summary', 'experience', 'education', 'references', 'customFields']
+const MAIN_SECTION_KEYS: SectionKey[] = ['summary', 'experience', 'education', 'references']
 
 function initials(fullName: string): string {
   const parts = fullName.trim().split(/\s+/).filter(Boolean)
@@ -27,8 +27,7 @@ function initials(fullName: string): string {
 }
 
 export function KompaktTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   const mainSectionRenderers: Partial<Record<SectionKey, ReactNode>> = {
     summary: summary && (
@@ -104,20 +103,6 @@ export function KompaktTemplate({ data, accent }: TemplateProps) {
         </div>
       </section>
     ),
-    customFields: customFields.length > 0 && (
-      <section>
-        <SectionHeading icon={Tag} className="text-xs text-ink-secondary">
-          Ek Bilgiler
-        </SectionHeading>
-        <div className="mt-1.5 flex flex-col gap-1 text-xs text-ink-secondary">
-          {customFields.map((item) => (
-            <span key={item.id}>
-              <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-            </span>
-          ))}
-        </div>
-      </section>
-    ),
   }
 
   const orderedMainKeys = data.sectionOrder.filter((key) => MAIN_SECTION_KEYS.includes(key))
@@ -172,6 +157,9 @@ export function KompaktTemplate({ data, accent }: TemplateProps) {
                 <MapPin className="h-3 w-3 shrink-0" />
                 {personalInfo.location}
               </span>
+            )}
+            {personalInfo.smoking && (
+              <span>Sigara Kullanımı: {getSmokingLabel(personalInfo.smoking)}</span>
             )}
           </div>
 

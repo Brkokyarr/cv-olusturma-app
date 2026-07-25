@@ -6,13 +6,13 @@ import {
   Mail,
   MapPin,
   Phone,
-  Tag,
   User,
   Users,
   Wrench,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { getSmokingLabel } from '../../../lib/personalInfo'
 import { SectionHeading } from './SectionHeading'
 import type { TemplateProps } from './TemplateProps'
 
@@ -65,8 +65,7 @@ function SidebarCard({
 }
 
 export function AfisTemplate({ data, accent }: TemplateProps) {
-  const { personalInfo, summary, experience, education, skills, languages, certificates, references, customFields } =
-    data
+  const { personalInfo, summary, experience, education, skills, languages, certificates, references } = data
 
   return (
     <div className="flex flex-col">
@@ -117,6 +116,9 @@ export function AfisTemplate({ data, accent }: TemplateProps) {
                   <MapPin className="h-3 w-3 shrink-0" />
                   {personalInfo.location}
                 </span>
+              )}
+              {personalInfo.smoking && (
+                <span>Sigara Kullanımı: {getSmokingLabel(personalInfo.smoking)}</span>
               )}
             </div>
           </SidebarCard>
@@ -244,20 +246,6 @@ export function AfisTemplate({ data, accent }: TemplateProps) {
             </section>
           )}
 
-          {customFields.length > 0 && (
-            <section>
-              <SectionHeading icon={Tag} className={`text-xs ${accent.textClass}`}>
-                Ek Bilgiler
-              </SectionHeading>
-              <div className="mt-2 flex flex-col gap-1 text-xs text-ink-secondary">
-                {customFields.map((item) => (
-                  <span key={item.id}>
-                    <span className="font-medium text-ink">{item.label || 'Kategori'}:</span> {item.value}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
         </main>
       </div>
     </div>
