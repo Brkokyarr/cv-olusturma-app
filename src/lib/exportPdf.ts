@@ -51,10 +51,23 @@ export async function exportElementToPdf(element: HTMLElement, filename: string)
   // sayfa yüksekliği) her zaman tam 1 çıkar, ne fazladan boşluk ne de
   // neredeyse boş bir 2. sayfa kalır.
   const widthMm = canvas.width / HTML2CANVAS_SCALE / PX_PER_MM
-  const heightMm = canvas.height / HTML2CANVAS_SCALE / PX_PER_MM
+  // jsPDF'in dahili birim dönüşümünde oluşan kayan nokta yuvarlama farkı,
+  // bazen hesaplanan yükseklik canvas'tan 1px kısa çıkmasına ve bu yüzden
+  // neredeyse boş bir 2. sayfa açılmasına yol açabiliyor — küçük bir pay
+  // bırakarak bunu engelliyoruz.
+  const heightMm = canvas.height / HTML2CANVAS_SCALE / PX_PER_MM + 0.5
+
+  // jsPDF, format dizisini varsayılan "portrait" (dikey) yönelimine göre
+  // yorumluyor: genişlik yükseklikten büyükse bunu "hatalı" sayıp width/
+  // height değerlerini SESSİZCE birbirine karıştırıyor. Kısa CV'lerde
+  // (yükseklik < 210mm A4 genişliği) tam olarak bu oluyor ve sayfa yanlış
+  // boyutlarda üretilip içeriğin altında büyük bir boşluk kalıyordu. Gerçek
+  // en/boy ilişkisine uyan yönelimi açıkça belirterek bu karıştırmayı
+  // engelliyoruz.
+  const orientation = heightMm >= widthMm ? 'portrait' : 'landscape'
 
   await worker
-    .set({ jsPDF: { unit: 'mm', format: [widthMm, heightMm] } })
+    .set({ jsPDF: { unit: 'mm', format: [widthMm, heightMm], orientation } })
     .toPdf()
     .save()
 }
