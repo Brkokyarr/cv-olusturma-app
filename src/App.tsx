@@ -10,7 +10,7 @@ import { TemplateGrid } from './components/template-gallery/TemplateGrid'
 import { Badge } from './components/ui/Badge'
 import { Card } from './components/ui/Card'
 import { UploadCvView } from './components/upload/UploadCvView'
-import { exportElementToPdf, PDF_EXPORT_WIDTH_PX } from './lib/exportPdf'
+import { exportElementToPdf, isIosDevice, PDF_EXPORT_WIDTH_PX } from './lib/exportPdf'
 import { createId } from './lib/id'
 import { loadStoredCvs, saveStoredCvs } from './lib/storage'
 import { EMPTY_CV_DATA, type CvData, type StoredCv, type TemplateId } from './types/cv'
@@ -25,6 +25,7 @@ export function App() {
   const [templatePresetId, setTemplatePresetId] = useState<TemplateId | null>(null)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
   const exportRef = useRef<HTMLDivElement>(null)
+  const pendingExportWindowRef = useRef<Window | null>(null)
 
   useEffect(() => {
     saveStoredCvs(cvs)
@@ -35,7 +36,7 @@ export function App() {
   useEffect(() => {
     if (!downloadingCv || !exportRef.current) return
     let cancelled = false
-    exportElementToPdf(exportRef.current, downloadingCv.name || 'cv').then(() => {
+    exportElementToPdf(exportRef.current, downloadingCv.name || 'cv', pendingExportWindowRef.current).then(() => {
       if (!cancelled) {
         setDownloadingId(null)
       }
@@ -44,6 +45,14 @@ export function App() {
       cancelled = true
     }
   }, [downloadingCv])
+
+  function handleDownload(cvId: string) {
+    // iOS'ta PDF'i yeni sekmede açacağız — pop-up engelleyicinin devreye
+    // girmemesi için pencereyi tıklama anında, senkron olarak açmamız
+    // gerekiyor (bkz. src/lib/exportPdf.ts).
+    pendingExportWindowRef.current = isIosDevice() ? window.open('', '_blank') : null
+    setDownloadingId(cvId)
+  }
 
   const editingCv = cvs.find((cv) => cv.id === editingId) ?? null
 
@@ -234,7 +243,7 @@ export function App() {
                 cv={cv}
                 isDownloading={downloadingId === cv.id}
                 onEdit={() => handleEdit(cv.id)}
-                onDownload={() => setDownloadingId(cv.id)}
+                onDownload={() => handleDownload(cv.id)}
                 onDelete={() => handleDelete(cv.id)}
                 onRename={(name) => handleRename(cv.id, name)}
               />

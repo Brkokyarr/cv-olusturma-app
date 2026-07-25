@@ -12,7 +12,22 @@ export const PDF_EXPORT_WIDTH_PX = 794
 const HTML2CANVAS_SCALE = 2
 const PX_PER_MM = 96 / 25.4
 
-export async function exportElementToPdf(element: HTMLElement, filename: string) {
+// iOS'ta (Safari dahil tüm tarayıcılar WebKit kullanır) blob URL'ler için
+// <a download> özniteliği güvenilir çalışmıyor — dosya inmek yerine tuhaf
+// bir "resim" önizlemesi açılabiliyor ve kullanıcı ne Fotoğraflar'a ne
+// Dosyalar'a kaydedebiliyor. Bu yüzden iOS'ta farklı bir yol izliyoruz
+// (bkz. exportElementToPdf).
+export function isIosDevice(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent
+  return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+}
+
+export async function exportElementToPdf(
+  element: HTMLElement,
+  filename: string,
+  preOpenedWindow?: Window | null,
+) {
   function stripPaperChrome(clonedDoc: Document) {
     const node = clonedDoc.getElementById(element.id)
     if (node) {
@@ -66,8 +81,25 @@ export async function exportElementToPdf(element: HTMLElement, filename: string)
   // engelliyoruz.
   const orientation = heightMm >= widthMm ? 'portrait' : 'landscape'
 
-  await worker
-    .set({ jsPDF: { unit: 'mm', format: [widthMm, heightMm], orientation } })
-    .toPdf()
-    .save()
+  const pdfWorker = worker.set({ jsPDF: { unit: 'mm', format: [widthMm, heightMm], orientation } }).toPdf()
+
+  if (isIosDevice()) {
+    // Normal indirme yerine PDF'i (yeni sekmede, mümkünse tıklama anında
+    // AÇILMIŞ pencerede) Safari'nin kendi PDF görüntüleyicisinde açıyoruz —
+    // oradaki paylaş simgesiyle "Dosyalar'a Kaydet" güvenilir çalışıyor.
+    // Pencereyi burada değil, tıklama anında (senkron olarak) açmak
+    // gerekiyor; aksi halde Safari'nin pop-up engelleyicisi devreye girer.
+    const blobUrl: string = await pdfWorker.output('bloburl')
+    const target = preOpenedWindow ?? window.open(blobUrl, '_blank')
+    if (target && preOpenedWindow) {
+      target.location.href = blobUrl
+    }
+    if (!target) {
+      // Pop-up her şekilde engellendiyse son çare olarak normal indirmeyi dene.
+      await pdfWorker.save()
+    }
+    return
+  }
+
+  await pdfWorker.save()
 }

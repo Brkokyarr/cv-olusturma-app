@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight, Check, Download, Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { exportElementToPdf, PDF_EXPORT_WIDTH_PX } from '../../lib/exportPdf'
+import { exportElementToPdf, isIosDevice, PDF_EXPORT_WIDTH_PX } from '../../lib/exportPdf'
 import { SAMPLE_CV_DATA } from '../../lib/sampleCvData'
 import { EMPTY_CV_DATA, type CvData } from '../../types/cv'
 import { AdSlot } from '../ads/AdSlot'
@@ -71,9 +71,13 @@ export function CvBuilderView({
 
   async function handleExportPdf() {
     if (!exportRef.current || isExporting) return
+    // iOS'ta PDF'i yeni sekmede açacağız — pop-up engelleyicinin devreye
+    // girmemesi için pencereyi tıklama anında, senkron olarak açmamız
+    // gerekiyor (bkz. src/lib/exportPdf.ts).
+    const preOpenedWindow = isIosDevice() ? window.open('', '_blank') : null
     setIsExporting(true)
     try {
-      await exportElementToPdf(exportRef.current, cvData.personalInfo.fullName || 'cv')
+      await exportElementToPdf(exportRef.current, cvData.personalInfo.fullName || 'cv', preOpenedWindow)
     } finally {
       setIsExporting(false)
     }
