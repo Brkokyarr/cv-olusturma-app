@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.brkokyarr.cvolustur",
+      "sha256_cert_fingerprints": [
+        "71:E0:DD:6A:56:89:C8:2A:44:C7:89:A2:FF:0D:C6:82:5D:91:0F:48:91:DD:B7:34:60:1F:4C:E6:1E:A4:66:39"
+      ]
+    }
+  }
+]
