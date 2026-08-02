@@ -4,6 +4,7 @@ import { AdSlot } from './components/ads/AdSlot'
 import { CvBuilderView } from './components/cv-builder/CvBuilderView'
 import { CvPreview } from './components/cv-builder/CvPreview'
 import { CvCard } from './components/dashboard/CvCard'
+import { CvGuideSection } from './components/dashboard/CvGuideSection'
 import { DashboardLayout } from './components/dashboard/DashboardLayout'
 import { SettingsView } from './components/settings/SettingsView'
 import { TemplateGrid } from './components/template-gallery/TemplateGrid'
@@ -263,6 +264,8 @@ export function App() {
       <div className="mt-8">
         <AdSlot placement="dashboard-bottom" />
       </div>
+
+      <CvGuideSection />
 
       {downloadingCv && (
         <div
