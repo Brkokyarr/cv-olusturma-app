@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Check, Download, Loader2 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { exportElementToPdf, isIosDevice, PDF_EXPORT_WIDTH_PX } from '../../lib/exportPdf'
 import { SAMPLE_CV_DATA } from '../../lib/sampleCvData'
 import { EMPTY_CV_DATA, type CvData } from '../../types/cv'
@@ -62,6 +62,19 @@ export function CvBuilderView({
   const [isExporting, setIsExporting] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
   const exportRef = useRef<HTMLDivElement>(null)
+  const initialDataRef = useRef(cvData)
+
+  const hasUnsavedChanges = useMemo(
+    () => JSON.stringify(cvData) !== JSON.stringify(initialDataRef.current),
+    [cvData],
+  )
+
+  function handleCancel() {
+    if (hasUnsavedChanges && !window.confirm('Kaydedilmemiş değişiklikleriniz kaybolacak. Çıkmak istediğinize emin misiniz?')) {
+      return
+    }
+    onCancel()
+  }
 
   const isLastStep = currentStep === STEP_LABELS.length - 1
   const isEditing = Boolean(initialData)
@@ -93,7 +106,7 @@ export function CvBuilderView({
 
   function goBack() {
     if (currentStep === 0) {
-      onCancel()
+      handleCancel()
       return
     }
     setCurrentStep((step) => Math.max(step - 1, 0))
@@ -110,7 +123,7 @@ export function CvBuilderView({
         </div>
         <button
           type="button"
-          onClick={onCancel}
+          onClick={handleCancel}
           className="text-sm font-medium text-text-secondary hover:text-text-primary"
         >
           Panele dön
