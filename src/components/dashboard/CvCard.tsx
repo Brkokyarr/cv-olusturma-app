@@ -1,4 +1,4 @@
-import { Download, Loader2, Pencil, Trash2 } from 'lucide-react'
+import { Copy, Download, Loader2, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { formatRelativeDate } from '../../lib/date'
 import { getTemplateLabel } from '../../lib/theme'
@@ -13,9 +13,10 @@ interface CvCardProps {
   onDownload: () => void
   onDelete: () => void
   onRename: (name: string) => void
+  onDuplicate: () => void
 }
 
-export function CvCard({ cv, isDownloading, onEdit, onDownload, onDelete, onRename }: CvCardProps) {
+export function CvCard({ cv, isDownloading, onEdit, onDownload, onDelete, onRename, onDuplicate }: CvCardProps) {
   const [isRenaming, setIsRenaming] = useState(false)
   const [draftName, setDraftName] = useState(cv.name)
 
@@ -106,6 +107,14 @@ export function CvCard({ cv, isDownloading, onEdit, onDownload, onDelete, onRena
           ) : (
             <Download className="h-3.5 w-3.5" />
           )}
+        </button>
+        <button
+          type="button"
+          onClick={onDuplicate}
+          aria-label={`${cv.name} CV'sini çoğalt`}
+          className="flex items-center justify-center rounded-lg bg-surface-hover p-2 text-text-secondary hover:bg-primary-muted hover:text-primary"
+        >
+          <Copy className="h-3.5 w-3.5" />
         </button>
         <button
           type="button"

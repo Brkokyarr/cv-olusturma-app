@@ -111,6 +111,25 @@ export function App() {
     setCvs((prev) => prev.map((cv) => (cv.id === id ? { ...cv, name } : cv)))
   }
 
+  function handleDuplicate(id: string) {
+    const source = cvs.find((cv) => cv.id === id)
+    if (!source) return
+    const now = new Date().toISOString()
+    const copy: StoredCv = {
+      id: createId(),
+      name: `${source.name} (Kopya)`,
+      data: source.data,
+      createdAt: now,
+      updatedAt: now,
+    }
+    setCvs((prev) => {
+      const index = prev.findIndex((cv) => cv.id === id)
+      const next = [...prev]
+      next.splice(index + 1, 0, copy)
+      return next
+    })
+  }
+
   function handleDelete(id: string) {
     const target = cvs.find((cv) => cv.id === id)
     const label = target?.name || 'Bu CV'
@@ -247,6 +266,7 @@ export function App() {
                 onDownload={() => handleDownload(cv.id)}
                 onDelete={() => handleDelete(cv.id)}
                 onRename={(name) => handleRename(cv.id, name)}
+                onDuplicate={() => handleDuplicate(cv.id)}
               />
             ))}
           </div>
