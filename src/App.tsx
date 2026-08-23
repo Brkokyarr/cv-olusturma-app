@@ -249,7 +249,9 @@ export function App() {
         </Card>
       </div>
 
-      <div className="mb-8">
+      <CvGuideSection />
+
+      <div className="my-8">
         <AdSlot placement="dashboard-top" />
       </div>
 
@@ -284,8 +286,6 @@ export function App() {
       <div className="mt-8">
         <AdSlot placement="dashboard-bottom" />
       </div>
-
-      <CvGuideSection />
 
       {downloadingCv && (
         <div

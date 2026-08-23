@@ -103,9 +103,14 @@ export function CvGuideSection() {
                     )}
                   />
                 </button>
-                {isOpen && (
-                  <p className="px-5 pb-4 text-sm leading-relaxed text-text-secondary">{item.a}</p>
-                )}
+                <p
+                  className={clsx(
+                    'px-5 text-sm leading-relaxed text-text-secondary',
+                    isOpen ? 'pb-4' : 'hidden',
+                  )}
+                >
+                  {item.a}
+                </p>
               </Card>
             )
           })}
