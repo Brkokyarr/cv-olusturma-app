@@ -30,11 +30,10 @@ export function AdSlot({ placement }: AdSlotProps) {
   }, [configured, slotId])
 
   if (!configured || !slotId) {
-    return (
-      <div className="flex min-h-[90px] w-full items-center justify-center rounded-lg border border-dashed border-border-subtle bg-surface/50 text-xs text-text-muted">
-        Reklam alanı
-      </div>
-    )
+    // Reklam birimi henüz tanımlanmamışsa hiçbir şey göstermiyoruz — boş
+    // "Reklam alanı" kutuları sitenin "yapım aşamasında" görünmesine yol
+    // açıyordu, bu da AdSense inceleme politikalarını ihlal ediyordu.
+    return null
   }
 
   return (
