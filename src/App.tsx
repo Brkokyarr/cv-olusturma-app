@@ -32,6 +32,13 @@ export function App() {
     saveStoredCvs(cvs)
   }, [cvs])
 
+  useEffect(() => {
+    // Gerçek uygulama içeriği ekrana çizildikten SONRA statik ön-render
+    // bloğunu kaldırıyoruz — tersi sırada (App mount olmadan önce) tarayıcı
+    // taramasının hiçbir içerik görmediği bir an oluşabiliyordu.
+    document.getElementById('prerender-content')?.remove()
+  }, [])
+
   const downloadingCv = cvs.find((cv) => cv.id === downloadingId) ?? null
 
   useEffect(() => {

@@ -55,6 +55,14 @@ const FAQS = [
     q: 'Hazırladığım CV\'yi nasıl indiririm?',
     a: 'CV\'nizi oluşturduktan sonra tek dokunuşla PDF olarak indirebilir, doğrudan iş başvurularınızda kullanabilirsiniz.',
   },
+  {
+    q: 'CV Oluştur hangi cihazlarda çalışır?',
+    a: 'Bilgisayar, telefon ve tablet fark etmeksizin herhangi bir modern tarayıcıdan kullanabilirsiniz. Ayrıca Android için Google Play\'de uygulama olarak da yayında.',
+  },
+  {
+    q: 'Birden fazla CV oluşturabilir miyim?',
+    a: 'Evet, dilediğiniz kadar CV oluşturup panelinizde saklayabilir, farklı iş başvuruları için mevcut bir CV\'yi çoğaltıp üzerinde değişiklik yapabilirsiniz.',
+  },
 ]
 
 export function CvGuideSection() {
@@ -115,6 +123,32 @@ export function CvGuideSection() {
             )
           })}
         </div>
+      </section>
+
+      <section aria-labelledby="cv-about-heading" className="max-w-3xl">
+        <h2 id="cv-about-heading" className="text-lg font-semibold text-text-primary">
+          Hakkımızda
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+          CV Oluştur, iş arayanların profesyonel bir özgeçmişe ücretsiz ve hızlı bir şekilde
+          ulaşabilmesi amacıyla geliştirilen bağımsız bir web uygulamasıdır. Karmaşık tasarım
+          araçlarına ya da ücretli şablonlara ihtiyaç duymadan, herkesin birkaç dakikada düzenli ve
+          göz alıcı bir CV hazırlayabilmesini hedefliyoruz. Uygulama sürekli geliştirilmekte, yeni
+          şablonlar ve iyileştirmeler düzenli olarak eklenmektedir.
+        </p>
+      </section>
+
+      <section aria-labelledby="cv-contact-heading" className="max-w-3xl">
+        <h2 id="cv-contact-heading" className="text-lg font-semibold text-text-primary">
+          İletişim
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+          Geri bildirimleriniz, önerileriniz veya karşılaştığınız bir sorun için bize{' '}
+          <a href="mailto:burakokyarr@gmail.com" className="text-primary hover:underline">
+            burakokyarr@gmail.com
+          </a>{' '}
+          adresinden ulaşabilirsiniz.
+        </p>
       </section>
     </div>
   )
